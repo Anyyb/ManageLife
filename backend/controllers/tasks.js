@@ -5,7 +5,7 @@ const User = require('../models/user')
 
 
 tasksRouter.get('/', async (request, response) => {
-    const task = await Task.find({}).populate('user', { username: 1, name: 1 })
+    const tasks = await Task.find({}).populate('user', { username: 1, name: 1 })
     response.json(tasks)
   })
 
@@ -25,7 +25,7 @@ tasksRouter.get('/', async (request, response) => {
       user: user.id
     })
     const savedTask= await newtask.save()
-    user.tasks = user.tasks.concat(savedTasks.id)
+    user.tasks = user.tasks.concat(savedTask.id)
     await user.save()
 
     response.status(201).json(savedTask)
