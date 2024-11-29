@@ -1,0 +1,1 @@
+tänne tulee miten tiedot tallennetaan mongodb collectioneihin
