@@ -3,11 +3,11 @@ const mongoose = require("mongoose")
 const taskSchema = mongoose.Schema({
 
     title:{
-    type: String,
-    required:true,
+      type: String,
+      required:true,
     },
     user:[{
-        type: mongoose, Schema, Types, ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }]
     
