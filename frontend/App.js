@@ -1,20 +1,46 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator } from '@react-navigation/drawer';
+import {createNativeStackNavigator } from '@react-navigation/native-stack';
+import UserProvider from './context/userProvider'
+import Etusivu from './screens/etusivu';
+import Tehtavalista from './screens/tehtavalista';
+import Kuluseuranta from './screens/kuluseuranta';
+
+//tämä on sovelluksen juuri tänne vain ne asetukset mitä tarvitsee sovellus arkkitehtuurin juureen
+
+const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
+
+
+const Stack1Navigation = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Etusivu" component={Etusivu}/>
+  </Stack.Navigator>
+);
+
+const Stack2Navigation = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Tehtavalista" component={Tehtavalista} />
+  </Stack.Navigator>
+);
+
+const Stack3Navigation = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Kuluseuranta" component={Kuluseuranta} />
+  </Stack.Navigator>
+);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <UserProvider>
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Etusivu" screenOptions={{ headerShown: true }}  >
+      <Drawer.Screen name="Etusivu" component={Stack1Navigation}/>
+      <Drawer.Screen name="Tehtävälista" component={Stack2Navigation }/>
+      <Drawer.Screen name="Kuluseuranta" component={Stack3Navigation }/>
+      </Drawer.Navigator>
+    </NavigationContainer>
+    </UserProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
