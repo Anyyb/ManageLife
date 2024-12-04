@@ -15,19 +15,19 @@ const Stack = createNativeStackNavigator();
 
 const Stack1Navigation = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Etusivu" component={Etusivu}/>
+    <Stack.Screen name="E" component={Etusivu}/>
   </Stack.Navigator>
 );
 
 const Stack2Navigation = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Tehtavalista" component={Tehtavalista} />
+    <Stack.Screen name="T" component={Tehtavalista} />
   </Stack.Navigator>
 );
 
 const Stack3Navigation = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Kuluseuranta" component={Kuluseuranta} />
+    <Stack.Screen name="K" component={Kuluseuranta} />
   </Stack.Navigator>
 );
 
