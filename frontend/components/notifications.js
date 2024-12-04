@@ -7,7 +7,7 @@ const Notification = ({ message }) => {
     }
   
     return (
-      <View>
+      <View style={{ backgroundColor: 'lightgreen' }}>
         <Text style={{ color: 'red' }}>{message}</Text>
       </View>
     );

@@ -3,16 +3,18 @@ import { StyleSheet,View,Text, Pressable,TextInput,Platform} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Notification from'../components/notifications';
 import loginService from '../services/login';
+import UserContext from '../context/userContext';
 import createUserService from '../services/createuser';
 
 const Etusivu=({navigation}) => {
+  const { user, setUser } = useContext(UserContext);
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [newUsername, setNewUsername] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [addSingupVisible, setaddSingupVisible] = useState(false)
   const [name, setName] = useState('')
-  const [user, setUser] = useState(null)
+  //const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
 //talletetaan kirjautuneen käyttäjän token ja tiedot asyncstorageen
@@ -77,12 +79,27 @@ const handleLogout = () => {
 return(
 <View style={styles.flexContainer}>
 <View style={styles.buttonContainer}>
+{/*Käyttäjän luomisen lomakkeen napit*/}
+{addSingupVisible === false ? (
+    <Pressable
+      style={styles.buttonSingup} 
+      onPress={() => setaddSingupVisible(true)} >
+      <Text style={styles.buttonText}>Sign up</Text>
+    </Pressable>
+  ) : (
+    <Pressable
+      style={styles.buttonSingup} 
+      onPress={() => setaddSingupVisible(false)} >
+      <Text style={styles.buttonText}>Hide sign up</Text>
+    </Pressable>
+)
+}
 <Notification message={errorMessage}/>
 {!user && <LoginForm handleLogin={handleLogin} username={username}password={password} setUsername={setUsername} setPassword={setPassword}/>}
 {user &&
 <View>
 <View style={styles.mainContainer}>
-<Text style={styles.text}>{user.name} logged in</Text>
+<Text style={styles.text}> Kirjautuneena: {user.name}</Text>
 <Text style={styles.text}>Etusivu!</Text>
 </View>
 <View>
@@ -93,8 +110,6 @@ onPress={handleLogout}>
 </Pressable>
 </View>
 </View>
-
-
 }
 { addSingupVisible && <CreateUserForm handleaddNewUser={handleaddNewUser} newUsername={newUsername} 
 newPassword={newPassword} name={name} setNewUsername={setNewUsername} setNewPassword={setNewPassword} setName={setName} />}
@@ -179,7 +194,7 @@ const styles = StyleSheet.create({
   flexContainer: {
     flex:1, // container täyttää näytön
     flexDirection: 'column', //felxin suunta
-    backgroundColor:'#D0F0C0',
+    backgroundColor:'#9988bb',
   },
   buttonContainer: {
     padding:20,
@@ -188,17 +203,17 @@ const styles = StyleSheet.create({
   mainContainer: {
     padding:20,
     width:'90%',
-    height:'50%',
+    height:'40%',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
-    backgroundColor: '#9DC183',
+    backgroundColor: '#716090',
     ...Platform.select({
       android: {
         elevation: 5,
       },
       ios: {
-      shadowOffset:{width:1,height:2},
+      shadowOffset:{width:1,height:1},
       shadowOpacity:3,
       shadowColor:'black',
       shadowRadius:3,
@@ -209,7 +224,7 @@ const styles = StyleSheet.create({
     width: '90%',
     marginBottom:10,
     padding:15,
-    backgroundColor: '#5E7A3A',
+    backgroundColor: '#5d4c7f',
     borderRadius: 2,
     ...Platform.select({
       android: {
@@ -226,8 +241,7 @@ const styles = StyleSheet.create({
   buttonLogout: {
     marginTop:10,
     padding:10,
-    marginBottom:10,
-    backgroundColor: '#5E7A3A',
+    backgroundColor: '#5d4c7f',
     borderRadius: 2,
   },
   buttonText:{
@@ -254,7 +268,7 @@ const styles = StyleSheet.create({
     width:'90%',
     marginBottom:10,
     borderRadius: 5,
-    backgroundColor: '#9DC183',
+    backgroundColor: '#716090',
     ...Platform.select({
       android: {
         elevation: 5,
@@ -270,21 +284,20 @@ const styles = StyleSheet.create({
     buttonLogin: {
     padding:10,
     marginBottom:10,
-    backgroundColor: '#5E7A3A',
+    backgroundColor: '#5d4c7f',
     borderRadius: 2,
 }, 
     buttonSingup: {
     padding:10,
     marginBottom:10,
-    backgroundColor: '#5E7A3A',
+    backgroundColor: '#5d4c7f',
     borderRadius: 2,
 }, 
 createContainer: {
   padding:20,
   width:'90%',
-  height:'50%',
   borderRadius: 5,
-  backgroundColor: '#9DC183',
+  backgroundColor: '#716090',
   ...Platform.select({
     android: {
       elevation: 5,
@@ -297,7 +310,5 @@ createContainer: {
   }
   }),
   },
-
 });
-
 export default Etusivu;

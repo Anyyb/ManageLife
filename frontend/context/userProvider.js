@@ -1,11 +1,12 @@
 import {useState, useEffect} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserContext from './userContext';
+
 //määritellään provider joka tarjoaa arvon jota halutaan välittää
 const UserProvider = ({children}) => {
     const [user, setUser] = useState(null)
 
-//talletetaan kirjautuneen käyttäjän token asyncstorageen
+const updateUserState= async () =>{
 useEffect(() => {
     const fetchUser = async () => {
     const loggedUserJSON = await AsyncStorage.getItem('loggedAppUser')
@@ -13,11 +14,16 @@ useEffect(() => {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
     } else {
-        setUser(null); //tyhjennetään tila
+        setUser(null)
       }
-    };
-    fetchUser();
+    }
+    fetchUser()
 }, [user])  
+}
+
+useEffect(() => {
+  updateUserState()
+}, []);
 
   return (
     <UserContext.Provider value ={{user, setUser}}>
