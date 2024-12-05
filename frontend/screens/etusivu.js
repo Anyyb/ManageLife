@@ -7,7 +7,8 @@ import loginService from '../services/login';
 import UserContext from '../context/userContext';
 import createUserService from '../services/createuser';
 
-const Etusivu=({route}) => {
+
+const Etusivu=({navigation,route}) => {
   const { user, setUser } = useContext(UserContext);
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -30,6 +31,36 @@ useEffect(() => {
   }}
   fetchUser();
 }, [])
+useEffect(() => {
+  navigation.setOptions({
+    headerRight: () => (
+      <View style={{ flexDirection: 'row' }}>
+        <Pressable style={styles.buttonLogout} onPress={handleLogout}>
+          <Text style={styles.buttonText}>Log out</Text>
+        </Pressable>
+
+        {addSingupVisible === false ? (
+          <Pressable
+            style={styles.buttonSingup}
+            onPress={() => setaddSingupVisible(true)}>
+            <Text style={styles.buttonText}>Sign up</Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            style={styles.buttonSingup}
+            onPress={() => setaddSingupVisible(false)}>
+            <Text style={styles.buttonText}>Hide sign up</Text>
+          </Pressable>
+        )}
+      </View>
+    ),
+    headerLeft: () => (
+      <Pressable onPress={() => navigation.openDrawer()}>
+        <Image style={{ height:40,width:40,}} source={require('../assets/menu.png')}/>
+      </Pressable>
+    ),
+  });
+}, [navigation, addSingupVisible]);
 
 //kirjautumisen tapahtumankäsittelijä
 const handleLogin =  async () => {
@@ -81,39 +112,13 @@ const handleLogout = () => {
 return(
 <View style={styles.flexContainer}>
 <Notification message={errorMessage}/>
-<Text style={{fontSize: 13, fontWeight: 'bold', color: 'white',}}> Toimiiko route.params: {info} </Text>
+<Text style={{fontSize: 13, fontWeight: 'bold', color: 'white',margin:10,}}> Toimiiko route.params: {info} </Text>
 {/*Jos käyttäjä ei ole kirjautunut näytä loginForm*/}
 {!user && <LoginForm handleLogin={handleLogin} username={username}password={password} setUsername={setUsername} setPassword={setPassword}/>}
-{/*Käyttäjän luomisen lomakkeen napit*/}
-{addSingupVisible === false ? (
-  <View style={styles.buttonContainer}>
-  <Pressable
-    style={styles.buttonSingup} 
-    onPress={() => setaddSingupVisible(true)} >
-    <Text style={styles.buttonText}>Sign up</Text>
-  </Pressable>
-  </View>
-) : (
-  <View style={styles.buttonContainer}>
-  <Pressable
-    style={styles.buttonSingup} 
-    onPress={() => setaddSingupVisible(false)} >
-    <Text style={styles.buttonText}>Hide signing</Text>
-  </Pressable>
-  </View>
-)
-}
 {/*Jos käyttäjä on kirjautunut näytä muu sisältö*/}
 {user &&
 
 <View style={styles.flexContainer}>
-<View style={styles.buttonContainer}>
-<Pressable
-style={styles.buttonLogout} 
-onPress={handleLogout}>
-<Text style={styles.buttonText}>Log out</Text>
-</Pressable>
-</View>
 <View style={styles.mainContainer}>
 <Text style={styles.text}> Aurinkoista päivää!</Text>
 <Text style={styles.text}>{user.name}</Text>
@@ -265,7 +270,8 @@ const styles = StyleSheet.create({
 },
   image: {
     padding:5,
-},
+  },
+  
   buttonContainer: {
     flexDirection: 'row-reverse',
     padding:15,
@@ -277,23 +283,22 @@ const styles = StyleSheet.create({
     borderRadius: 2,
 }, 
   buttonSingup: {
-    width:'25%',
-    padding:10,
+    padding:5,
+    margin:2,
     backgroundColor: '#5d4c7f',
     borderRadius: 2,
 }, 
   buttonLogout: {
-    width:'25%',
-    padding:10,
+    padding:5,
+    margin:2,
     backgroundColor: '#5d4c7f',
     borderRadius: 2,
-
 },
   buttonText:{
     fontFamily:'Arial',
     fontWeight:'bold',
     color: 'white',
-    fontSize:'13',   
+    fontSize:13,
 },
 createContainer: {
   margin:20,

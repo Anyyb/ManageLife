@@ -1,16 +1,29 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { StyleSheet,View,Text, FlatList, Button, TextInput, Pressable } from 'react-native';
 import UserContext from '../context/userContext';
 
 
-const Tehtavalista=() => {
+const Tehtavalista=({navigation}) => {
 const {user} = useContext(UserContext);
 const [addedTaskText, setAddedTaskText] = useState('');
 const [allTasks, setAllTasks] = useState([]);
 
+useEffect(() => {
+  navigation.setOptions({
+  headerRight: () => (
+    navigation.canGoBack() ? (
+    <Pressable style={styles.buttonGoback} onPress={() => navigation.goBack()}>
+      <Text style={{color:'white'}}>Back</Text>
+    </Pressable>
+     ) : null
+),
+});
+}, [navigation]);
+
 function tasksInputHandler(addedText) { //fetching user inputs
   setAddedTaskText(addedText);
 }
+
 
 function addTaskHandler() { //kun painetaan buttonia, lisätään käyttäjän uusi lisäämä 'task' tähän arrayhyn
   if(addedTaskText.trim() === '') return;
@@ -104,6 +117,12 @@ const styles = StyleSheet.create({
   taskText: { //tehtävien fontti
     fontSize: 15,
   },
+  buttonGoback: {
+    padding:5,
+    margin:2,
+    backgroundColor: '#5d4c7f',
+    borderRadius: 2,
+},
   
   
   
