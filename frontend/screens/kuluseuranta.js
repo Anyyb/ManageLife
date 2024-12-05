@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { StyleSheet,View,Text, Pressable} from 'react-native';
+import { StyleSheet,View,Text} from 'react-native';
 import UserContext from '../context/userContext';
 
-const Kuluseuranta=({navigation}) => {
+const Kuluseuranta=({}) => {
 const {user} = useContext(UserContext);
 return(
     <View style={styles.container}>

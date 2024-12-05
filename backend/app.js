@@ -5,6 +5,7 @@ const loginRouter = require('./controllers/login')
 const incomesRouter = require('./controllers/incomes')
 const usersRouter = require('./controllers/users')
 const tasksRouter = require('./controllers/tasks')
+const quotesRouter = require('./controllers/quotes')
 const middleware = require('./utils/tokenseparator')
 const logger = require('./utils/logger')
 
@@ -28,11 +29,10 @@ app.use(express.static('dist'))
 app.use(express.json())
 app.use(middleware.tokenSeparator)
 
-
 app.use('/api/login', loginRouter)
-app.use('/api/incomes', incomesRouter)
+app.use('/api/incomes',incomesRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/tasks', tasksRouter)
-
+app.use('/api/quotes', quotesRouter)
 
 module.exports = app

@@ -3,7 +3,7 @@ import { StyleSheet,View,Text, FlatList, Button, TextInput, Pressable } from 're
 import UserContext from '../context/userContext';
 
 
-const Tehtavalista=({navigation}) => {
+const Tehtavalista=() => {
 const {user} = useContext(UserContext);
 const [addedTaskText, setAddedTaskText] = useState('');
 const [allTasks, setAllTasks] = useState([]);

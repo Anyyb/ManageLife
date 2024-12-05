@@ -2,11 +2,12 @@ import { useState, useEffect,useContext } from 'react'
 import { StyleSheet,View,Text, Pressable,TextInput,Platform, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Notification from'../components/notifications';
+import QuotesList from'../components/inspirationalQuotes';
 import loginService from '../services/login';
 import UserContext from '../context/userContext';
 import createUserService from '../services/createuser';
 
-const Etusivu=({navigation}) => {
+const Etusivu=({route}) => {
   const { user, setUser } = useContext(UserContext);
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -16,6 +17,7 @@ const Etusivu=({navigation}) => {
   const [name, setName] = useState('')
   //const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const { info } = route.params
 
 //talletetaan kirjautuneen käyttäjän token ja tiedot asyncstorageen
 useEffect(() => {
@@ -79,6 +81,7 @@ const handleLogout = () => {
 return(
 <View style={styles.flexContainer}>
 <Notification message={errorMessage}/>
+<Text style={{fontSize: 13, fontWeight: 'bold', color: 'white',}}> Toimiiko route.params: {info} </Text>
 {/*Jos käyttäjä ei ole kirjautunut näytä loginForm*/}
 {!user && <LoginForm handleLogin={handleLogin} username={username}password={password} setUsername={setUsername} setPassword={setPassword}/>}
 {/*Käyttäjän luomisen lomakkeen napit*/}
@@ -115,6 +118,7 @@ onPress={handleLogout}>
 <Text style={styles.text}> Aurinkoista päivää!</Text>
 <Text style={styles.text}>{user.name}</Text>
 <Image style={styles.image} source={require('../assets/smiley.png')}/>
+<QuotesList/>
 </View>
 </View>
 }
@@ -206,6 +210,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     flex:2,
+    justifyContent:'center',
     alignItems:'center',
     margin:20,
     padding:20,
@@ -259,8 +264,7 @@ const styles = StyleSheet.create({
   }),
 },
   image: {
-    marginTop:10,
-    padding:10,
+    padding:5,
 },
   buttonContainer: {
     flexDirection: 'row-reverse',

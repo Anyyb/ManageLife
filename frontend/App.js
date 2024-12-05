@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 
 const Stack1Navigation = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="E" component={Etusivu}/>
+    <Stack.Screen name="E" component={Etusivu} initialParams={{ info: 'route params toimii' }}/>
   </Stack.Navigator>
 );
 
