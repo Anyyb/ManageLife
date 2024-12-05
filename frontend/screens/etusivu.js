@@ -1,5 +1,5 @@
 import { useState, useEffect,useContext } from 'react'
-import { StyleSheet,View,Text, Pressable,TextInput,Platform} from 'react-native';
+import { StyleSheet,View,Text, Pressable,TextInput,Platform, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Notification from'../components/notifications';
 import loginService from '../services/login';
@@ -78,39 +78,47 @@ const handleLogout = () => {
 
 return(
 <View style={styles.flexContainer}>
-<View style={styles.buttonContainer}>
+<Notification message={errorMessage}/>
+{/*Jos käyttäjä ei ole kirjautunut näytä loginForm*/}
+{!user && <LoginForm handleLogin={handleLogin} username={username}password={password} setUsername={setUsername} setPassword={setPassword}/>}
 {/*Käyttäjän luomisen lomakkeen napit*/}
 {addSingupVisible === false ? (
-    <Pressable
-      style={styles.buttonSingup} 
-      onPress={() => setaddSingupVisible(true)} >
-      <Text style={styles.buttonText}>Sign up</Text>
-    </Pressable>
-  ) : (
-    <Pressable
-      style={styles.buttonSingup} 
-      onPress={() => setaddSingupVisible(false)} >
-      <Text style={styles.buttonText}>Hide sign up</Text>
-    </Pressable>
+  <View style={styles.buttonContainer}>
+  <Pressable
+    style={styles.buttonSingup} 
+    onPress={() => setaddSingupVisible(true)} >
+    <Text style={styles.buttonText}>Sign up</Text>
+  </Pressable>
+  </View>
+) : (
+  <View style={styles.buttonContainer}>
+  <Pressable
+    style={styles.buttonSingup} 
+    onPress={() => setaddSingupVisible(false)} >
+    <Text style={styles.buttonText}>Hide signing</Text>
+  </Pressable>
+  </View>
 )
 }
-<Notification message={errorMessage}/>
-{!user && <LoginForm handleLogin={handleLogin} username={username}password={password} setUsername={setUsername} setPassword={setPassword}/>}
+{/*Jos käyttäjä on kirjautunut näytä muu sisältö*/}
 {user &&
-<View>
-<View style={styles.mainContainer}>
-<Text style={styles.text}> Kirjautuneena: {user.name}</Text>
-<Text style={styles.text}>Etusivu!</Text>
-</View>
-<View>
+
+<View style={styles.flexContainer}>
+<View style={styles.buttonContainer}>
 <Pressable
 style={styles.buttonLogout} 
 onPress={handleLogout}>
 <Text style={styles.buttonText}>Log out</Text>
 </Pressable>
 </View>
+<View style={styles.mainContainer}>
+<Text style={styles.text}> Aurinkoista päivää!</Text>
+<Text style={styles.text}>{user.name}</Text>
+<Image style={styles.image} source={require('../assets/smiley.png')}/>
+</View>
 </View>
 }
+<View style={styles.flexContainer}>
 { addSingupVisible && <CreateUserForm handleaddNewUser={handleaddNewUser} newUsername={newUsername} 
 newPassword={newPassword} name={name} setNewUsername={setNewUsername} setNewPassword={setNewPassword} setName={setName} />}
 </View>
@@ -196,36 +204,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column', //felxin suunta
     backgroundColor:'#9988bb',
   },
-  buttonContainer: {
-    padding:20,
-    alignItems: 'center', 
-  },
   mainContainer: {
+    flex:2,
+    alignItems:'center',
+    margin:20,
     padding:20,
-    width:'90%',
-    height:'40%',
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 5,
     backgroundColor: '#716090',
-    ...Platform.select({
-      android: {
-        elevation: 5,
-      },
-      ios: {
-      shadowOffset:{width:1,height:1},
-      shadowOpacity:3,
-      shadowColor:'black',
-      shadowRadius:3,
-    }
-    }),
-  },
-  button: {
-    width: '90%',
-    marginBottom:10,
-    padding:15,
-    backgroundColor: '#5d4c7f',
-    borderRadius: 2,
     ...Platform.select({
       android: {
         elevation: 5,
@@ -237,17 +222,6 @@ const styles = StyleSheet.create({
       shadowRadius:3,
     }
     }),
-  },
-  buttonLogout: {
-    marginTop:10,
-    padding:10,
-    backgroundColor: '#5d4c7f',
-    borderRadius: 2,
-  },
-  buttonText:{
-    fontFamily:'Arial',
-    fontWeight:'bold',
-    color: 'white',
   },
   input: {
     padding:10,
@@ -258,15 +232,18 @@ const styles = StyleSheet.create({
   inputLabel: {
     textAlign:'left',
     fontWeight:'500',
+    color:'white',
+    marginBottom:2,
   },
   text: {
     marginTop:10,
-    fontSize:25,
+    fontSize:20,
+    color:"white",
   },
   loginContainer: {
+    justifyContent:'center',
+    margin:20,
     padding:20,
-    width:'90%',
-    marginBottom:10,
     borderRadius: 5,
     backgroundColor: '#716090',
     ...Platform.select({
@@ -279,23 +256,44 @@ const styles = StyleSheet.create({
       shadowColor:'black',
       shadowRadius:3,
     }
-    }),
-    },
-    buttonLogin: {
+  }),
+},
+  image: {
+    marginTop:10,
+    padding:10,
+},
+  buttonContainer: {
+    flexDirection: 'row-reverse',
+    padding:15,
+},
+  buttonLogin: {
     padding:10,
     marginBottom:10,
     backgroundColor: '#5d4c7f',
     borderRadius: 2,
 }, 
-    buttonSingup: {
+  buttonSingup: {
+    width:'25%',
     padding:10,
-    marginBottom:10,
     backgroundColor: '#5d4c7f',
     borderRadius: 2,
 }, 
+  buttonLogout: {
+    width:'25%',
+    padding:10,
+    backgroundColor: '#5d4c7f',
+    borderRadius: 2,
+
+},
+  buttonText:{
+    fontFamily:'Arial',
+    fontWeight:'bold',
+    color: 'white',
+    fontSize:'13',   
+},
 createContainer: {
+  margin:20,
   padding:20,
-  width:'90%',
   borderRadius: 5,
   backgroundColor: '#716090',
   ...Platform.select({
