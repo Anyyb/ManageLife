@@ -101,6 +101,7 @@ const TaskList = ({tasks, deleteTaskHandler}) => {
       <Text style={styles.tableHeader}>Tehtävälista:</Text>
       <FlatList
         data={tasks}
+        scrollEnabled={true} 
         keyExtractor={(item) => item.id.toString()}
         alwaysBounceVertical={false} 
         renderItem={({ item }) => (
