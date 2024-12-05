@@ -26,7 +26,6 @@ useEffect(() => {
 useEffect(() => {
   TaskService.getAll().then(tasks =>
     setTasks( tasks )
-    
   )
 }, [tasks])
 
@@ -101,9 +100,9 @@ const TaskList = ({tasks, deleteTaskHandler}) => {
       <Text style={styles.tableHeader}>Tehtävälista:</Text>
       <FlatList
         data={tasks}
-        scrollEnabled={true} 
+        showsVerticalScrollIndicator={true} 
         keyExtractor={(item) => item.id.toString()}
-        alwaysBounceVertical={false} 
+        
         renderItem={({ item }) => (
         <View style={styles.taskItem}>
          <View style={styles.taskRow}>
