@@ -87,11 +87,10 @@ return(
     value={salary}
     onChangeText={(text) => setSalary(text)}
   />
-  <Button 
-    title="Lisää raha" 
-    onPress={handleAddSalary}
-    color="#5d4c7f"
-    />
+  <Pressable style={styles.buttonAdd} onPress={handleAddSalary}>
+          <Text style={styles.buttonText}>Lisää tulo..</Text>
+        </Pressable>
+    
 </View>
   {/* Kulun syöttökenttä */}
   <TextInput
@@ -107,9 +106,9 @@ return(
     value={description}
     onChangeText={(text) => setDescription(text)}
   />
-  <Button title="Lisää kulu" 
-    onPress={handleAddExpense} 
-    color="#5d4c7f" />
+  <Pressable style={styles.buttonAdd} onPres={handleAddExpense}>
+          <Text style={styles.buttonText}>Lisää meno..</Text>
+        </Pressable>
 
   {/* Näytetään saldo */}
   <Text style={styles.balance}>Saldo: {balance.toFixed(2)} €</Text>
@@ -140,9 +139,9 @@ return(
     value={wishlistValue}
     onChangeText={(text) => setWishlistValue(text)}
   />
-  <Button title="Lisää toive" 
-    onPress={handleAddWishlistItem} 
-    color="#5d4c7f" />
+  <Pressable style={styles.buttonAdd} onPress={handleAddWishlistItem}>
+          <Text style={styles.buttonText}>Lisää toive..</Text>
+        </Pressable>
 
   {/* Toivelistan näyttö */}
   <Text style={styles.listTitle}>Toivelista:</Text>
@@ -161,11 +160,10 @@ return(
           value={savingAmount}
           onChangeText={(text) => setSavingAmount(text)}
         />
-        <Button
-          title="Lisää säästö"
-          onPress={() => handleAddSaving(item.id)}
-          color="#5d4c7f"
-        />
+        <Pressable style={styles.buttonAdd} onPress={handleAddSaving}>
+          <Text style={styles.buttonText}>Lisää säästö..</Text>
+        </Pressable>
+        
       </View>
     )}
   />
@@ -178,7 +176,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#5d4c7f',
+    backgroundColor:'#9988bb',
     padding: 20,
     
   },
@@ -225,6 +223,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     
   },
+
+  buttonGoback: {
+    padding:5,
+    margin:2,
+    backgroundColor: '#5d4c7f',
+    borderRadius: 2,
+
+},
+buttonAdd:{
+  padding:5,
+  margin:2,
+  backgroundColor: '#5d4c7f',
+  borderRadius: 2,
+},
+
+buttonText:{
+  fontWeight:'bold',
+  color: 'white',
+  fontSize:13,
+},
+
 });
   
 export default Kuluseuranta;
